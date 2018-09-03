@@ -34,9 +34,11 @@ class DatabaseMongo(Database):
         else:
             await self.db[key].insert_one(data)
 
-    async def get(self, key, query={}):
-        """Get a document from the given mongo collection (key)."""
-        logging.debug("Getting the last inserted document from the " + key + " mongo collection")
+    async def get(self, key):
+        """Get a document from the given mongo collection."""
+        # hack parsing a single string key into the mongo collection name and search query parameters
+        collection, field, value = key.split('/')
+        logging.debug("Getting the last inserted document from the " + collection + " mongo collection")
         return await self.db[key].find_one(
-                        {"$query": query, "$orderby": {"$natural" : -1}}
+                        {"$query": {field: value}, "$orderby": {"$natural" : -1}}
                         )
