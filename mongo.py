@@ -26,17 +26,17 @@ class DatabaseMongo(Database):
         self.db = self.client[database]
         logging.info("Connected to mongo")
 
-    async def put(self, key, data):
-        """Insert or replace an object into the database for a given key."""
-        logging.debug("Putting " + key + " into mongo")
+    async def put(self, collection, data):
+        """Insert or replace an object into the given mongo collection."""
+        logging.debug("Putting the document into " + collection + " mongo collection")
         if "_id" in data:
-            await self.db[key].update_one({"_id": data["_id"]}, {"$set": data})
+            await self.db[collection].update_one({"_id": data["_id"]}, {"$set": data})
         else:
-            await self.db[key].insert_one(data)
+            await self.db[collection].insert_one(data)
 
-    async def get(self, key):
-        """Get a document from the database for a given key."""
-        logging.debug("Getting " + key + " from mongo")
-        return await self.db[key].find_one(
-                        {"$query": {}, "$orderby": {"$natural" : -1}}
+    async def get(self, collection, query={}):
+        """Get the last document from the given mongo collection."""
+        logging.debug("Getting the last inserted document from the " + collection + " mongo collection")
+        return await self.db[collection].find_one(
+                        {"$query": query, "$orderby": {"$natural" : -1}}
                         )
