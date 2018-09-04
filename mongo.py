@@ -43,5 +43,5 @@ class DatabaseMongo(Database):
         print (value)
         logging.debug("Getting the last inserted document from the " + collection + " mongo collection")
         return await self.db[collection].find_one(
-                        {"$query": {field: value}, "$orderby": {"$natural" : -1}}
+                        {"$query": {}, "$orderby": {"$natural" : -1}}
                         )
