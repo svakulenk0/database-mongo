@@ -1,5 +1,5 @@
 import logging
-from motor.motor_asyncio import AsyncIOMotorClient
+from pymongo import MongoClient
 
 from opsdroid.database import Database
 
@@ -22,7 +22,7 @@ class DatabaseMongo(Database):
         database = self.config["database"] \
             if "database" in self.config else "opsdroid"
         path = "mongodb://" + host + ":" + port
-        self.client = AsyncIOMotorClient(path)
+        self.client = MongoClient(path)
         self.db = self.client[database]
         logging.info("Connected to mongo")
 
