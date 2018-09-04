@@ -39,5 +39,5 @@ class DatabaseMongo(Database):
         # hack parsing a single string key into the mongo collection name and search query parameters
         logging.debug("Getting the last inserted document from the " + key + " mongo collection")
         return await self.db[key].find_one(
-                        {"$query": {}, "$orderby": {"$natural" : -1}}
+                        {"$query": {'user': "368791667"}, "$orderby": {"$natural" : -1}}
                         )
