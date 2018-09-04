@@ -30,9 +30,9 @@ class DatabaseMongo(Database):
         """Insert or replace an object into the given mongo collection (key)."""
         logging.debug("Putting the document into " + key + " mongo collection")
         if "_id" in data:
-            await self.db[key].update_one({"_id": data["_id"]}, {"$set": data})
+            self.db[key].update_one({"_id": data["_id"]}, {"$set": data})
         else:
-            await self.db[key].insert_one(data)
+            self.db[key].insert_one(data)
 
     async def get(self, key):
         """Get a document from the given mongo collection."""
